@@ -2,6 +2,8 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,macos,windows,visualstudiocode
 
 sample.py
+mysample.py
+missing_pic_example.py
 
 ### macOS ###
 # General

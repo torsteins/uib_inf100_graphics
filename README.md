@@ -1,10 +1,31 @@
 # UiB INF100 Graphics
 
+- [About](#about)
+- [Installation](#installation)
+
+For sample usage, see the docs on the [simple](./docs/simple.md), [event_app](./docs/event_app.md) and [helpers](./docs/helpers.md) subpackages, as well as the provided [examples](./examples/).
+
+## About
+
+UiB INF100 Graphics is a framework creating graphics and interactive applications for new beginners in programming. It consists of two subpackages: 
+ - `basic`, which is intended for the first few weeks of an introductory course. This package let us create images and animations in a desktop frame with a simple, iterative programming paradigm.
+ - `event_app`, which is intended for creating a first interactive, graphical desktop application.
+
+Note that the `simple` subpackage and the `event_app` subpackage are *not* designed be used simultaneously.
+
+> For teachers: this framework is a wrapper around a [Canvas](https://tkinter-docs.readthedocs.io/en/latest/widgets/canvas.html) object from Python's [tkinter](https://docs.python.org/3/library/tkinter.html), designed to simplify the framework with these principles in mind:
+> - creative learning: allow users to be creative with programming as early as possible.
+> - authenticity: functions are named and behave (as far as possible) the same as for a true tkinter canvas. This gives an authentic experience and seamless transition to the more advanced framework later.
+> - classes come later: knowing the object-oriented programming paradigm is not neccessary in order to use the framework.
+> - the `basic` package is made for a purely iterative experience; similar to the turtle package.
+> - the `event_app` package is for creating interactive applications using an event-based paradigm. It designed to enforce the use of model-view-controller.
+
+
 ## Installation
 
 **Prerequisites**
 
-Python 3.10 or above.
+Python 3.10 or above, in an installation *that includes Tkinter*. Note that the standard installer downloaded from [python.org](https://www.python.org) includes this by default, whereas some installers that are provided by package managers such as homebrew and apt-get does not, and Tkinter then needs to be installed separately.
 
 For Linux users only, the package [pyscreenshot](https://github.com/ponty/pyscreenshot) must be installed for all features to work.
 
@@ -26,13 +47,7 @@ python -m pip install --upgrade pip
 python -m pip install uib-inf100-graphics
 ```
 
-The command above will automatically install the following dependencies:
-
-* [requests](https://requests.readthedocs.io/) version 2.28.0 or higher
-* [Pillow](https://pillow.readthedocs.io/) version 9.2.0 or higher
-
-
-**Alternative installation by running a script**
+**Alternative installation by running a Python script**
 
 Copy and paste the following code into a python file, and then run it.
 
@@ -51,179 +66,14 @@ ans = input(f"\n\nType 'yes' to install {package_name}: ")
 if ((ans.lower() == "yes") or (ans.lower() == "y")):
     print()
     cmd_pip_update = f"{sys.executable} -m pip install --upgrade pip"
-    print(f"Will attempt to update pip now with command: {cmd_pip_update}")
+    print(f"Attempting to update pip with command: {cmd_pip_update}")
     run(cmd_pip_update.split())
     
     print()
     cmd_install = f"{sys.executable} -m pip install {package_name}"
-    print(f"Will attempt to install {package_name} now with command: {cmd_install}")
+    print(f"Attempting to install {package_name} with command: {cmd_install}")
     run(cmd_install.split())
 else:
     print(f"Did not attempt to install {package_name} now")
 print("\n")
-```
-
-
-## Sample usage
-
-### Open a blank window
-
-```python
-from uib_inf100_graphics import run_app
-run_app(width=400, height=200)
-```
-
-### Open a window and display something
-
-
-```python
-from uib_inf100_graphics import run_app
-
-def redraw_all(app, canvas):
-    canvas.create_rectangle(100, 50, 300, 150, fill='maroon')
-    canvas.create_oval(100, 50, 300, 150, fill='purple', outline='white')
-    canvas.create_line(100, 50, 150, 150, fill='#68ebff', width=5)
-    canvas.create_polygon(100, 30, 200, 50, 300, 30, 200, 10, 
-                          fill='#fed', width = 5, outline='black')
-    canvas.create_text(200, 100, text='INF100', fill='yellow',
-                       font='Helvetica 26 bold underline')
-
-run_app(width=400, height=200)
-```
-
-
-### Animate with a timer
-
-```python
-from uib_inf100_graphics import run_app
-
-def app_started(app):
-    # Define variables to use
-    app.x_offset = 0
-
-def timer_fired(app):
-    # Update variable periodically with a timer
-    app.x_offset += 10
-    if (app.x_offset > 300):
-        app.x_offset = 0
-
-def redraw_all(app, canvas):
-    # Draw a ball, and position it depending on state of variables
-    x1 = 10 + app.x_offset
-    y1 = 50
-    x2 = x1 + 20
-    y2 = y1 + 20
-    canvas.create_oval(x1, y1, x2, y2, fill="yellow")
-
-run_app(width=400, height=100)
-```
-
-### React to keyboard input
-
-
-```python
-from uib_inf100_graphics import run_app
-
-def app_started(app):
-    # Define variables to use
-    app.x_offset = 0
-    app.y_offset = 0
-    app.radius = 20
-
-def key_pressed(app, event):
-    # Update variables when a key is pressed
-    if   (event.key == "Left"):  app.x_offset -= 10
-    elif (event.key == "Right"): app.x_offset += 10
-    elif (event.key == "Up"):    app.y_offset -= 10
-    elif (event.key == "Down"):  app.y_offset += 10
-    elif (event.key == "Space"): app.radius += 1
-    elif (event.key == "m"):     app.radius -= 1
-
-def redraw_all(app, canvas):
-    # Draw a ball, and position it depending on state of variables
-    cx = (app.width / 2) + app.x_offset
-    cy = app.height / 2 + app.y_offset
-    r = app.radius
-    canvas.create_oval(cx - r, cy - r, cx + r, cy + r, fill="yellow")
-
-run_app(width=400, height=100)
-```
-
-
-### React to mouse input
-
-```python
-from uib_inf100_graphics import run_app
-
-def app_started(app):
-    # Define variables to use, and set initial values
-    app.cx = app.width / 2
-    app.cy = app.height / 2
-    app.radius = 20
-
-def mouse_pressed(app, event):
-    # Update variables when mouse is pressed
-    app.cx = event.x
-    app.cy = event.y
-
-def redraw_all(app, canvas):
-    # Draw a ball, and position it depending on state of variables
-    canvas.create_oval(
-        app.cx - app.radius, 
-        app.cy - app.radius,
-        app.cx + app.radius,
-        app.cy + app.radius,
-        fill="yellow"
-    )
-
-run_app(width=400, height=100)
-```
-
-
-### Use with type hints
-
-```python
-from uib_inf100_graphics import run_app
-from uib_inf100_graphics.types import AppBase, MouseEvent, KeyEvent, Canvas
-
-class App(AppBase):
-    # Define types of variables to use
-    cx: float
-    cy: float
-    radius: float
-
-def app_started(app: App) -> None:
-    # Set initial values of all variables
-    app.cx = app.width / 2
-    app.cy = app.height / 2
-    app.radius = 20
-
-def timer_fired(app: App) -> None:
-    # Update variables every time timer fires
-    app.cx += 1
-    app.cy += 1
-
-def key_pressed(app: App, event: KeyEvent) -> None:
-    # Update variables if keys are pressed
-    if event.key == "Up":
-        app.radius += 1
-    elif event.key == "Down":
-        app.radius -= 1
-
-def mouse_pressed(app: App, event: MouseEvent) -> None:
-    # Update variables when mouse is pressed
-    app.cx = event.x
-    app.cy = event.y
-
-def redraw_all(app: App, canvas: Canvas) -> None:
-    # Draw a ball, and position it depending on state of variables
-    canvas.create_oval(
-        app.cx - app.radius, 
-        app.cy - app.radius,
-        app.cx + app.radius,
-        app.cy + app.radius,
-        fill="yellow"
-    )
-
-run_app(width=400, height=100)
 ```
