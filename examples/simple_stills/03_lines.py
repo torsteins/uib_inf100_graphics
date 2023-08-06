@@ -4,7 +4,7 @@ from uib_inf100_graphics.simple import canvas, display
 # coordinates of the start and end points of the line.
 
 canvas.create_line(10, 20, 390, 90)
-canvas.create_line(10, 110, 390, 190, fill='blue', arrow='first')
+canvas.create_line(10, 110, 390, 190, fill='blue', arrow='last')
 
 # It is possible to draw multiple connected lines with a single create_line
 # call by providing a list of coordinates. The coordinates are interpreted as
