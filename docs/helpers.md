@@ -131,6 +131,7 @@ text_in_box(canvas, 100, 20, 300, 70, text)
 canvas.create_rectangle(100, 120, 300, 170)
 text_in_box(canvas, 100, 120, 300, 170, text,
             font="TkFixedFont",
+            justify="left",
             padding=15)
 
 # System installed font family name, fill color and fit_mode.
