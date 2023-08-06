@@ -5,7 +5,7 @@ import sys
 if ((sys.version_info[0] != 3) or (sys.version_info[1] < 10)):
     raise Exception('uib_inf100_graphics requires Python version 3.10 or later.')
 
-from .version import __version__, __last_updated__
+from uib_inf100_graphics.version import __version__, __last_updated__
 
 # Track version and file update timestamp
 MAJOR_VERSION = int(__version__.split('.')[0])
@@ -200,10 +200,10 @@ class App(object):
         d = app.__dict__
         d[attr] = val
         canvas = d.get('_canvas', None)
-        if (d.get('running', False) and
-            d.get('mvc_check', False) and
-            (canvas is not None) and
-            canvas.in_redraw_all):
+        if (d.get('running', False)
+                and d.get('mvc_check', False)
+                and (canvas is not None) 
+                and canvas.in_redraw_all):
             app._mvc_violation(f'you may not change app.{attr} in the model while in redraw_all (the view)')
 
     def _print_user_traceback(app, exception, tb):
@@ -212,9 +212,9 @@ class App(object):
         in_redraw_all_wrapper = False
         print_lines = [ ]
         for line in lines:
-            if (('"uib_inf100_graphics.py"' not in line) and
-                ('/uib_inf100_graphics.py' not in line) and
-                ('\\uib_inf100_graphics.py' not in line) and
+            if (('uib_inf100_graphics' not in line) and
+                ('/uib_inf100_graphics/' not in line) and
+                ('\\uib_inf100_graphics\\' not in line) and
                 ('/tkinter/' not in line) and
                 ('\\tkinter\\' not in line)):
                 print_lines.append(line)
@@ -264,7 +264,7 @@ class App(object):
         app._canvas.in_redraw_all = True
         app._canvas.delete(ALL)
         width,outline = (10,'red') if app._paused else (0,'white')
-        app._canvas.create_rectangle(0, 0, app.width, app.height, fill='white', width=width, outline=outline)
+        app._canvas.create_rectangle(0, 0, app.width, app.height, width=width, outline=outline)
         app._canvas.logged_drawing_calls = [ ]
         app._canvas.log_drawing_calls = app._log_drawing_calls
         hash1 = get_hash(app) if app._mvc_check else None

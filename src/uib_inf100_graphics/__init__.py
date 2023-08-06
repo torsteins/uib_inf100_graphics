@@ -1,2 +1,2 @@
 from .version import __version__, __last_updated__
-from .uib_inf100_graphics import run_app
+from .event_app import run_app

@@ -1,8 +1,19 @@
 # version.py
 import datetime
 
-__version__ = "0.2.0"
-__last_updated__ = datetime.date(year=2023, month=6, day=27)
+__version__ = "0.3.0"
+__last_updated__ = datetime.date(year=2023, month=8, day=6)
+
+
+# Version 0.3.0
+#  * Added the simple subpackage which provides an iterative interface
+#    to the graphics package. This is intended to be used by students who
+#    are not yet familiar with event-driven programming.
+#  * Added helpers subpackage with text_in_box and image_in_box functions
+#  * Moved the event-driven app to eventapp subpackage
+#  * Created examples folder with some first examples, particularly for the
+#    simple subpackage
+
 
 # Version 0.2.0
 #  * Added types for run_app -method (constructor of TopLevelApp) and types
