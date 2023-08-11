@@ -97,11 +97,11 @@ class SimplifiedFrame:
         if self._display_call_counter >= self._config.max_frames_to_save():
             self._save_as_image()
 
-        if not self._config.show_window() and self._image_is_saved:
+        if self._config.file_to_save() and self._image_is_saved:
             sys.exit(0)
 
     def _wait_until_ready(self):
-        if not self._config.show_window():
+        if self._config.file_to_save():
             return
         target_time = time.time() + self._next_delay
         while time.time() < target_time:
@@ -116,8 +116,6 @@ class SimplifiedFrame:
             self._is_initialized = True
             self._config.lock()
             self._tkroot.title(self._config.title())
-            if self._config.hide_window():
-                self._tkroot.withdraw()
             def close_window_clicked():
                 self._save_as_image()
                 self._tkroot.destroy()
@@ -142,7 +140,9 @@ class SimplifiedFrame:
 
     def _closing(self):
         self._save_as_image()
-        if self._config.show_window() and not self._mainloop_started:
+        if self._mainloop_started:
+            return
+        if (not self._config.file_to_save()):
             self._mainloop_started = True
             self._tkroot.mainloop()
         

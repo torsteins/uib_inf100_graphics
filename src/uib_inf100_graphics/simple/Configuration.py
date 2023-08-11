@@ -60,13 +60,6 @@ class Configuration:
         set_file_to_save() method on the configuration object or specify the
         FILETOSAVE environment variable.
 
-    HIDEWINDOW
-        Whether to hide the window or not as a bool. Default value is False.
-        To inspect the current value, use the hide_window() method; or for
-        the opposite value, use the show_window() method. To change the value,
-        use the set_hide_window() method on the configuration object or
-        specify the HIDEWINDOW environment variable.
-
         
     (ENVPRIORITY)
         Whether to prioritize environment variables over the other ways of
@@ -85,7 +78,6 @@ class Configuration:
         "MAXFRAMESTOSAVE": 60,
         "STDDURATION": 0.1,
         "FILETOSAVE": "",
-        "HIDEWINDOW": False,
     })
 
     def __init__(self):
@@ -172,14 +164,6 @@ class Configuration:
         """Returns the file name in which to save the frames."""
         return str(self._get_property("FILETOSAVE"))
     
-    def hide_window(self) -> bool:
-        """Returns whether the window will be hidden or not."""
-        return bool(self._get_property("HIDEWINDOW"))
-    
-    def show_window(self) -> bool:
-        """Returns whether the window will be visible or not."""
-        return not self.hide_window()
-    
     def set_properties(self, config_map: dict[str, Any]):
         """
         Sets the configuration properties specified in the config_map
@@ -193,7 +177,6 @@ class Configuration:
         MAXFRAMESTOSAVE: int = 60
         STDDURATION: float = 0.1
         FILETOSAVE: str = ""
-        HIDEWINDOW: bool = False
 
         The ENVPRIORITY property is not supported by this method.
         """
@@ -249,11 +232,3 @@ class Configuration:
         set to an empty string, then the frames will not be saved.
         """
         self.set_properties({"FILETOSAVE": save_to_file})
-
-    def set_hide_window(self, hide_window: bool):
-        """
-        Sets whether to hide the window or not. If this property is
-        set to True, then the window will not be shown, but the frames
-        will still be saved if the FILETOSAVE property is set.
-        """
-        self.set_properties({"HIDEWINDOW": hide_window})

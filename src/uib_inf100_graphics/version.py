@@ -1,8 +1,8 @@
 # version.py
 import datetime
 
-__version__ = "0.3.0"
-__last_updated__ = datetime.date(year=2023, month=8, day=6)
+__version__ = "0.4.0"
+__last_updated__ = datetime.date(year=2023, month=8, day=11)
 
 
 # Version 0.3.0
